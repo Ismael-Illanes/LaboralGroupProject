@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Dashboard</title>
+
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-2 text-gray-800">Usuarios</h1>
+        <p class="mb-4">Listado de usuarios registrados en la base de datos.</p>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Listado de Usuarios</h6>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <button class="btn btn-success" id="btnNuevoUsuario">
+                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="buscadorUsuarios"
+                                placeholder="Buscar por Nombre o DNI..." aria-label="Buscar"
+                                aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="btnBuscarUsuarios">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>DNI</th>
+                                <th>Nombre Completo</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Teléfono</th>
+                                <th>Email</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>DNI</th>
+                                <th>Nombre Completo</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Teléfono</th>
+                                <th>Email</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row justify-content-center">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination" id="paginacionUsuarios">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editarUsuarioModal" tabindex="-1" role="dialog"
+            aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarUsuarioModalLabel">Editar Usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarUsuario">
+                            <input type="hidden" id="editarUsuarioId" name="id">
+                            <div class="form-group">
+                                <label for="editarDNI">DNI:</label>
+                                <input type="text" class="form-control" id="editarDNI" name="dni" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarNombreCompleto">Nombre Completo:</label>
+                                <input type="text" class="form-control" id="editarNombreCompleto" name="nombre_completo"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarFechaNacimiento">Fecha de Nacimiento:</label>
+                                <input type="date" class="form-control" id="editarFechaNacimiento"
+                                    name="fecha_nacimiento">
+                            </div>
+                            <div class="form-group">
+                                <label for="editarTelefono">Teléfono:</label>
+                                <input type="tel" class="form-control" id="editarTelefono" name="telefono">
+                            </div>
+                            <div class="form-group">
+                                <label for="editarEmail">Email:</label>
+                                <input type="email" class="form-control" id="editarEmail" name="email">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="btnGuardarCambiosUsuario">Guardar
+                            Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="nuevoUsuarioModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoUsuarioModalLabel">Nuevo Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevoUsuario">
+                        <div class="form-group">
+                            <label for="nuevoDNI">DNI:</label>
+                            <input type="text" class="form-control" id="nuevoDNI" name="dni" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nuevoNombreCompleto">Nombre Completo:</label>
+                            <input type="text" class="form-control" id="nuevoNombreCompleto" name="nombre_completo"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nuevoFechaNacimiento">Fecha de Nacimiento:</label>
+                            <input type="date" class="form-control" id="nuevoFechaNacimiento" name="fecha_nacimiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="nuevoTelefono">Teléfono:</label>
+                            <input type="tel" class="form-control" id="nuevoTelefono" name="telefono">
+                        </div>
+                        <div class="form-group">
+                            <label for="nuevoEmail">Email:</label>
+                            <input type="email" class="form-control" id="nuevoEmail" name="email">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btnCrearNuevoUsuario">Crear Usuario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    </div>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var paginaActualUsuarios = 1;
+            var busquedaActualUsuarios = '';
+
+            function cargarUsuarios(pagina, busqueda) {
+                paginaActualUsuarios = pagina;
+                busquedaActualUsuarios = busqueda;
+                $.ajax({
+                    url: "../backend/users.php?accion=listar",
+                    type: "GET",
+                    data: { pagina: pagina, busqueda: busqueda },
+                    dataType: "json",
+                    success: function(response) {
+                        var tbody = $('#dataTable tbody');
+                        tbody.empty();
+
+                        var usuarios = response.usuarios;
+                        var totalUsuarios = response.total_usuarios;
+                        var paginaActual = response.pagina_actual;
+                        var porPagina = response.por_pagina;
+
+                        if (usuarios.length > 0) {
+                            $.each(usuarios, function(index, usuario) {
+                                var fila = $('<tr>');
+                                fila.append('<td>' + usuario.dni + '</td>');
+                                fila.append('<td>' + usuario.nombre_completo + '</td>');
+                                fila.append('<td>' + usuario.fecha_nacimiento + '</td>');
+                                fila.append('<td>' + usuario.telefono + '</td>');
+                                fila.append('<td>' + usuario.email + '</td>');
+                                fila.append('<td><button class="btn btn-sm btn-primary btn-editar-usuario" data-id="' + usuario.id + '"><i class="fas fa-edit"></i> Editar</button></td>');
+                                tbody.append(fila);
+                            });
+                        } else {
+                            tbody.append('<tr><td colspan="6" class="text-center">No se encontraron usuarios</td></tr>');
+                        }
+
+                        generarPaginacion(totalUsuarios, paginaActual, porPagina, busqueda);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error al cargar usuarios:", textStatus, errorThrown);
+                        $('#dataTable tbody').html('<tr><td colspan="6" class="text-center text-danger">Error al cargar los usuarios.</td></tr>');
+                    }
+                });
+            }
+
+            function generarPaginacion(totalUsuarios, paginaActual, porPagina, busqueda) {
+                var totalPaginas = Math.ceil(totalUsuarios / porPagina);
+                var paginacionHtml = '';
+                var paginacion = $('#paginacionUsuarios');
+                paginacion.empty();
+
+                if (totalPaginas > 1) {
+                    paginacionHtml += '<li class="page-item ' + (paginaActual == 1 ? 'disabled' : '') + '">';
+                    paginacionHtml += '<a class="page-link" href="#" data-pagina="' + (paginaActual - 1) + '" aria-label="Previous">';
+                    paginacionHtml += '<span aria-hidden="true">&laquo;</span>';
+                    paginacionHtml += '</a></li>';
+
+                    var inicio = Math.max(1, paginaActual - 2);
+                    var fin = Math.min(totalPaginas, paginaActual + 2);
+
+                    for (var i = inicio; i <= fin; i++) {
+                        paginacionHtml += '<li class="page-item ' + (paginaActual == i ? 'active' : '') + '">';
+                        paginacionHtml += '<a class="page-link" href="#" data-pagina="' + i + '">' + i + '</a></li>';
+                    }
+
+                    paginacionHtml += '<li class="page-item ' + (paginaActual == totalPaginas ? 'disabled' : '') + '">';
+                    paginacionHtml += '<a class="page-link" href="#" data-pagina="' + (paginaActual + 1) + '" aria-label="Next">';
+                    paginacionHtml += '<span aria-hidden="true">&raquo;</span>';
+                    paginacionHtml += '</a></li>';
+                }
+
+                paginacion.append(paginacionHtml);
+            }
+
+            function cargarDatosUsuarioParaEdicion(idUsuario) {
+                $.ajax({
+                    url: "../backend/users.php?accion=obtener_usuario",
+                    type: "GET",
+                    data: { id: idUsuario },
+                    dataType: "json",
+                    success: function(usuario) {
+                        $('#editarUsuarioId').val(usuario.id);
+                        $('#editarDNI').val(usuario.dni);
+                        $('#editarNombreCompleto').val(usuario.nombre_completo);
+                        $('#editarFechaNacimiento').val(usuario.fecha_nacimiento);
+                        $('#editarTelefono').val(usuario.telefono);
+                        $('#editarEmail').val(usuario.email);
+                        $('#editarUsuarioModal').modal('show');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error al cargar datos de usuario para edición:", textStatus, errorThrown);
+                        alert("Error al cargar datos del usuario. Por favor, intenta de nuevo.");
+                    }
+                });
+            }
+
+            $('#btnGuardarCambiosUsuario').click(function() {
+    var editarDNI = $('#editarDNI').val();
+    var editarNombreCompleto = $('#editarNombreCompleto').val();
+    var editarFechaNacimiento = $('#editarFechaNacimiento').val();
+
+    if (editarDNI.trim() === '' || editarNombreCompleto.trim() === '' || editarFechaNacimiento.trim() === '') {
+        alert("DNI, Nombre Completo y Fecha de Nacimiento son campos obligatorios.");
+        return; // Detener el proceso si la validación falla
+    }
+
+    var datosUsuario = $('#formEditarUsuario').serialize();
+    $.ajax({
+        url: "../backend/users.php?accion=guardar_usuario",
+        type: "POST",
+        data: datosUsuario,
+        dataType: "json",
+        success: function(response) {
+            if (response.success) {
+                $('#editarUsuarioModal').modal('hide');
+                cargarUsuarios(paginaActualUsuarios, busquedaActualUsuarios); // Recargar página actual y búsqueda
+                alert("Usuario actualizado correctamente.");
+            } else {
+                alert("Error al guardar los cambios: " + response.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error al guardar cambios del usuario:", textStatus, errorThrown);
+            alert("Error al guardar los cambios. Por favor, intenta de nuevo.");
+        }
+    });
+});
+
+            $('#btnNuevoUsuario').click(function() {
+                $('#nuevoUsuarioModal').modal('show');
+            });
+
+            $('#btnCrearNuevoUsuario').click(function() {
+    var nuevoDNI = $('#nuevoDNI').val();
+    var nuevoNombreCompleto = $('#nuevoNombreCompleto').val();
+    var nuevoFechaNacimiento = $('#nuevoFechaNacimiento').val();
+
+    if (nuevoDNI.trim() === '' || nuevoNombreCompleto.trim() === '' || nuevoFechaNacimiento.trim() === '') {
+        alert("DNI, Nombre Completo y Fecha de Nacimiento son campos obligatorios.");
+        return; // Detener el proceso si la validación falla
+    }
+
+    var datosNuevoUsuario = $('#formNuevoUsuario').serialize();
+    $.ajax({
+        url: "../backend/users.php?accion=crear_usuario",
+        type: "POST",
+        data: datosNuevoUsuario,
+        dataType: "json",
+        success: function(response) {
+            if (response.success) {
+                $('#nuevoUsuarioModal').modal('hide');
+                cargarUsuarios(1, '');
+                alert("Usuario creado correctamente.");
+                $('#formNuevoUsuario')[0].reset();
+            } else {
+                alert("Error al crear usuario: " + response.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error al crear nuevo usuario:", textStatus, errorThrown);
+            alert("Error al crear el usuario. Por favor, intenta de nuevo.");
+        }
+    });
+});
+
+
+            $('#dataTable tbody').on('click', '.btn-editar-usuario', function() {
+                var idUsuario = $(this).data('id');
+                cargarDatosUsuarioParaEdicion(idUsuario);
+            });
+
+
+            cargarUsuarios(1, '');
+
+            $('#btnBuscarUsuarios').click(function() {
+                var textoBusqueda = $('#buscadorUsuarios').val();
+                cargarUsuarios(1, textoBusqueda);
+            });
+
+            $('#paginacionUsuarios').on('click', 'li.page-item a.page-link', function(e) {
+                e.preventDefault();
+                if (!$(this).parent().hasClass('disabled') && !$(this).parent().hasClass('active')) {
+                    var pagina = $(this).data('pagina');
+                    cargarUsuarios(pagina, $('#buscadorUsuarios').val());
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
