@@ -15,7 +15,7 @@ switch ($accion) {
     case 'guardar_usuario':
         guardarUsuario($conn);
         break;
-    case 'crear_usuario': // Nueva acción para crear un nuevo usuario
+    case 'crear_usuario': 
         crearUsuario($conn);
         break;
     default:
@@ -69,17 +69,17 @@ function listarUsuarios($conn) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $usuarios = array(); // **CORRECCIÓN IMPORTANTE: Inicializar $usuarios como un array VACÍO aquí**
+    $usuarios = array(); 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $usuarios[] = $row; // **Añadir cada usuario ($row) al array $usuarios**
+            $usuarios[] = $row; 
         }
     }
 
     $stmt->close();
 
     $response = array(
-        'usuarios' => $usuarios, // **Ahora $usuarios es un array de usuarios**
+        'usuarios' => $usuarios, 
         'total_usuarios' => $total_usuarios,
         'pagina_actual' => intval($pagina),
         'por_pagina' => intval($por_pagina)
@@ -147,22 +147,20 @@ function guardarUsuario($conn) {
     }
 }
 
-function crearUsuario($conn) { // Función corregida para crear un nuevo usuario
+function crearUsuario($conn) { 
     $dni = $_POST['dni'] ?? '';
     $nombre_completo = $_POST['nombre_completo'] ?? '';
-    $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? null; // Permitimos null para fecha de nacimiento opcional
+    $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? null; 
     $telefono = $_POST['telefono'] ?? '';
     $email = $_POST['email'] ?? '';
 
-    // **Validación en el backend (AÑADIDO):**
+    
     if (empty($dni) || empty($nombre_completo) || empty($fecha_nacimiento)) {
         http_response_code(400); // Bad Request
         echo json_encode(array("error" => "DNI, Nombre Completo y Fecha de Nacimiento son campos obligatorios."));
         return;
     }
 
-    // Validar DNI (opcional, pero recomendable):
-    // ... (Aquí podrías añadir validación de formato de DNI si lo deseas) ...
 
     $sql = "INSERT INTO users (dni, nombre_completo, fecha_nacimiento, telefono, email) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
@@ -172,7 +170,7 @@ function crearUsuario($conn) { // Función corregida para crear un nuevo usuario
         $stmt->close();
         echo json_encode(array("success" => true, "usuarios" => []));
     } else {
-        http_response_code(500); // Internal Server Error
+        http_response_code(500); 
         echo json_encode(array("error" => "Error al crear el usuario en la base de datos"));
     }
 }
