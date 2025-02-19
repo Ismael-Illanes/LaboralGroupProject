@@ -21,7 +21,7 @@ $(document).ready(function () {
         var porPagina = response.por_pagina;
 
         if (usuarios.length > 0) {
-          $.each(usuarios, function (index, usuario) {
+          $.each(usuarios, function (usuario) {
             var fila = $("<tr>");
             fila.append("<td>" + usuario.dni + "</td>");
             fila.append("<td>" + usuario.nombre_completo + "</td>");
@@ -43,7 +43,7 @@ $(document).ready(function () {
 
         generarPaginacion(totalUsuarios, paginaActual, porPagina, busqueda);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function (textStatus, errorThrown) {
         console.error("Error al cargar usuarios:", textStatus, errorThrown);
         $("#dataTable tbody").html(
           '<tr><td colspan="6" class="text-center text-danger">Error al cargar los usuarios.</td></tr>'
@@ -53,7 +53,7 @@ $(document).ready(function () {
   }
   //Paginación ************************************
 
-  function generarPaginacion(totalUsuarios, paginaActual, porPagina, busqueda) {
+  function generarPaginacion(totalUsuarios, paginaActual, porPagina) {
     var totalPaginas = Math.ceil(totalUsuarios / porPagina);
     var paginacionHtml = "";
     var paginacion = $("#paginacionUsuarios");
@@ -115,7 +115,7 @@ $(document).ready(function () {
         $("#editarEmail").val(usuario.email);
         $("#editarUsuarioModal").modal("show");
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function ( textStatus, errorThrown) {
         console.error(
           "Error al cargar datos de usuario para edición:",
           textStatus,
@@ -159,7 +159,7 @@ $(document).ready(function () {
           alert("Error al guardar los cambios: " + response.error);
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function ( textStatus, errorThrown) {
         console.error(
           "Error al guardar cambios del usuario:",
           textStatus,
@@ -206,7 +206,7 @@ $(document).ready(function () {
           alert("Error al crear usuario: " + response.error);
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function ( textStatus, errorThrown) {
         console.error("Error al crear nuevo usuario:", textStatus, errorThrown);
         alert("Error al crear el usuario. Por favor, intenta de nuevo.");
       },

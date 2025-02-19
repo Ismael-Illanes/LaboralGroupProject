@@ -156,7 +156,7 @@ function crearUsuario($conn) {
 
     
     if (empty($dni) || empty($nombre_completo) || empty($fecha_nacimiento)) {
-        http_response_code(400); // Bad Request
+        http_response_code(400); 
         echo json_encode(array("error" => "DNI, Nombre Completo y Fecha de Nacimiento son campos obligatorios."));
         return;
     }
